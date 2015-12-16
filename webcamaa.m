@@ -1,6 +1,6 @@
 
   clear cam;
-   cam=webcam('M');
+ %  cam=webcam('M');
 mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
          25 15; 25 25; 25 35; 25 45; 25 55; 25 65; 25 75; 
          35 15; 35 25; 35 35; 35 45; 35 55; 35 65; 35 75; 
@@ -13,8 +13,9 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
 %   img=imread(strcat('k',int2str(2025),'.jpg'));
 %   img = snapshot(cam);
 for i=5000:6000
-    pause(1);
-        img = snapshot(cam);
+  %  pause(1);
+        %img = snapshot(cam);
+        img=imread('SCH2.jpg');
  %    imwrite(img,strcat('k',int2str(i),'.jpg'));
         
 %         img=imread(strcat('k',int2str(i),'.jpg'));
