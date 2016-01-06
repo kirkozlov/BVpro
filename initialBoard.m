@@ -16,7 +16,7 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
 
     
         img = snapshot(cam);
-
+imshow(img);
       [imagePoints,boardSize] = detectCheckerboardPoints(img);
 
      imagePoints=sortrows(imagePoints);
