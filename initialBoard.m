@@ -1,3 +1,6 @@
+function [ image,tforms,rect ] = initialBoard( )
+%UNTITLED Summary of this function goes here
+%   Detailed explanation goes here
 
   clear cam;
    cam=webcam('M');
@@ -32,16 +35,13 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
         hi=max(imagePointsw(:,2))-min(imagePointsw(:,2))+300;
         rect=[ minx,miny,wi,hi ];
         ClearBoard = imcrop(warpedImage,rect) ;
-        imshow(ClearBoard);  
+        image=ClearBoard;  
  catch ME
          close all;
-         imshow(img);
+         image=img;
      end
    
-     
-      
 
 
-    
-   
-  
+end
+
