@@ -1,8 +1,10 @@
-%  [ClearBoard,tforms,croprect]=initialBoard();
-%  imshow(ClearBoard);
+[ClearBoard,tforms,croprect]=initialBoard();
 
+
+  
+Posittions=initialFirstBoard();
 Board=readBoard(tforms,croprect);
 
-% Board=rgb2gray(Board);
-imshow(Board);
+
+[newP,move]=search_move(Posittions,Board,ClearBoard)
 

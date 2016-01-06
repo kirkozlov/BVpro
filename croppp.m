@@ -32,7 +32,7 @@ for ooy=0:7
       if(c>tr)
          Figureadded=true; 
       else
-          Figureadded=false; 
+         Figureadded=false; 
       end
       %c = min([corr2(R1,R2);corr2(G1,G2);corr2(B1,B2)]); 
       subplot(8,8,ooy*8+oox+1),imshowpair(A1,A2);
