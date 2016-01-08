@@ -2,8 +2,8 @@ function [ image,tforms,rect ] = initialBoard( )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
-  clear cam;
-   cam=webcam('M');
+%  clear cam;
+%  cam=webcam('M');
 mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
          25 15; 25 25; 25 35; 25 45; 25 55; 25 65; 25 75; 
          35 15; 35 25; 35 35; 35 45; 35 55; 35 65; 35 75; 
@@ -15,8 +15,9 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
      mypoins=10*mypoins;
 
     
-        img = snapshot(cam);
-imshow(img);
+        %img = snapshot(cam);
+%imshow(img);
+        img=imread('0.jpg');
       [imagePoints,boardSize] = detectCheckerboardPoints(img);
 
      imagePoints=sortrows(imagePoints);

@@ -2,21 +2,21 @@ function [ newPosition,move ] = search_move( oldPosition,newImage,ClearBoard)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 I3=newImage;
-BT=8.6;
-WT=15;
+BT=25;
+WT=9;
 Col=true;
 for ooy=0:7
    Col=~Col;
    for oox=0:7 
        Col=~Col;
-      rect=[55+oox*100,55+ooy*100,90,90];
+      rect=[60+oox*100,60+ooy*100,80,80];
       A1=rgb2gray(imcrop(I3,rect));
       A2=rgb2gray(imcrop(ClearBoard,rect));
         Filter = fspecial('disk', 5);
-         A1 = imfilter(A1,Filter,'corr');
+%         A1 = imfilter(A1,Filter,'corr');
 %         A2 = imfilter(A2,Filter,'corr');
-se = strel('disk',10);
-   A1 = imdilate(A1,se);
+%se = strel('disk',10);
+ %  A1 = imdilate(A1,se);
       
 %       H1=imhist(A1);
 %        H2=imhist(A2);
@@ -30,14 +30,17 @@ se = strel('disk',10);
       
 %       Diff=A1-A2;
 %       Diff=abs(Diff(:));
-      c=std2(A1);
+      
       if Col
           tr=WT;
-      else
+          c=std2(A1);
+      else %BlackKolor
           tr=BT;
+          c=std2(double(A1)-double(A2));
       end
       if(c>tr)
          %Figureadded(ooy,oox)=true; 
+         F=true;
          if (oldPosition(ooy+1,oox+1)=='0')
              to=[ooy+1,oox+1];            
          end
@@ -46,12 +49,12 @@ se = strel('disk',10);
              to=[ooy+1,oox+1];            
          end
       else
+          F=false;
          %Figureadded(ooy,oox)=false; 
          if (oldPosition(ooy+1,oox+1)~='0')
              from=[ooy+1,oox+1];            
          end
       end
-      %c = min([corr2(R1,R2);corr2(G1,G2);corr2(B1,B2)]); 
       subplot(8,8,ooy*8+oox+1),imshowpair(A1,A2);
    end
 end
