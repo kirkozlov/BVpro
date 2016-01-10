@@ -9,7 +9,6 @@ trBonW=95;
 trWonB=170;
 trBonB=25;
 Col=true;
-detectorW = vision.CascadeObjectDetector('WHITE.xml');
 for ooy=0:7
    Col=~Col;
    for oox=0:7 
