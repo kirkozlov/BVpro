@@ -1,4 +1,4 @@
-function [ image,tforms,rect ] = initialBoard( )
+function [ image,tforms,rect ] = initialBoard()
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 

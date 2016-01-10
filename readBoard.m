@@ -1,9 +1,4 @@
-function [ image ] = readBoard( tforms,rect ,file)
-%UNTITLED2 Summary of this function goes here
-%   Detailed explanation goes here
-
- % clear cam;
- %  cam=webcam('M');
+function [ image ] = readBoard( file)
 mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
          25 15; 25 25; 25 35; 25 45; 25 55; 25 65; 25 75; 
          35 15; 35 25; 35 35; 35 45; 35 55; 35 65; 35 75; 
@@ -15,23 +10,37 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
      mypoins=10*mypoins;
 
     
-        img = imread(file);
+        %img = snapshot(cam);
+%imshow(img);
+        img=imread(file);
+      [imagePoints,boardSize] = detectCheckerboardPoints(img);
 
-
+     imagePoints=sortrows(imagePoints);
      try
          
-         
+         for ip=0:7:42
+         imagePoints([ip+1 ip+2 ip+3 ip+4 ip+5 ip+6 ip+7 ],:)=sortrows(imagePoints([ip+1 ip+2 ip+3 ip+4 ip+5 ip+6 ip+7 ],:),2);
+         end
   
-        
+        tforms = estimateGeometricTransform(imagePoints, mypoins,'projective');
         warpedImage = imwarp(img, tforms);
-        Board = imcrop(warpedImage,rect) ;
-        image=Board;  
+        [imagePointsw,boardSizew] = detectCheckerboardPoints(warpedImage);
+        minx=min(imagePointsw(:,1))-150;
+        miny=min(imagePointsw(:,2))-150;
+        wi=max(imagePointsw(:,1))-min(imagePointsw(:,1))+300;
+        hi=max(imagePointsw(:,2))-min(imagePointsw(:,2))+300;
+        rect=[ minx,miny,wi,hi ];
+        ClearBoard = imcrop(warpedImage,rect) ;
+        image=ClearBoard;  
+        
+        
+        
  catch ME
          close all;
          image=img;
      end
    
-
+    
 
 end
 

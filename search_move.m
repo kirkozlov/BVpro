@@ -2,86 +2,110 @@ function [ newPosition,move ] = search_move( oldPosition,newImage,ClearBoard)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 I3=newImage;
-BT=15;
-WT=6;
+
+trW=180;
+trWonW=50;
+trBonW=95;
+trWonB=170;
+trBonB=25;
 Col=true;
+detectorW = vision.CascadeObjectDetector('WHITE.xml');
 for ooy=0:7
    Col=~Col;
    for oox=0:7 
        Col=~Col;
-      rect=[70+oox*100,70+ooy*100,60,60];
+      rect=[55+oox*100,55+ooy*100,90,90];
       A1=(imcrop(I3,rect));
       A2=(imcrop(ClearBoard,rect));
-        Filter = fspecial('disk', 5);
-%         A1 = imfilter(A1,Filter,'corr');
-%         A2 = imfilter(A2,Filter,'corr');
-%se = strel('disk',10);
- %  A1 = imdilate(A1,se);
       
-%       H1=imhist(A1);
-%        H2=imhist(A2);
-%       R1=imhist(A1(:,:,1));
-%       R2=imhist(A2(:,:,1));
-%       G1=imhist(A1(:,:,2));
-%       G2=imhist(A2(:,:,2));
-%       B1=imhist(A1(:,:,3));
-%       B2=imhist(A2(:,:,3));
-%       
+
       
-%       Diff=A1-A2;
-%       Diff=abs(Diff(:));
-      
+      ColorChange=false;
+      figur=oldPosition(ooy+1,oox+1);
+      tempIM=A1;
+      tempmean=mean(mean(mean(tempIM)));
+      tempS=std2(tempIM);
       if Col
-          tr=WT;
-          JJ=(double(A2)-double(A1));
-          c=mean(mean(mean(mean(JJ))));
-      else %BlackKolor
-          tr=BT;
           
-          JJ=(double(A1)-double(A2));
-          c=mean(mean(mean(mean(JJ))));
+          A1=imadjust(A1,[0.95 1],[0 1]);
+          Bm=mean(mean(mean(A1)));
+          Bs=std2(A1);
+          if (Bm<trBonW && tempmean<200)
+              %its black
+                 if(figur=='0' ||figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
+                  to=[ooy+1,oox+1];
+                 end
+                 
+          elseif(Bs>trWonW && Bm<200 && tempS>9)
+                 %its white 
+                 if(figur=='0' || figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
+                     to=[ooy+1,oox+1];
+                 end
+          else
+             if (figur~='0')
+                  from=[ooy+1,oox+1];            
+              end 
+          end
+      else 
+          Bm=mean(mean(mean(A1)));
+          Bs=std2(A1);
+          if (Bs>trBonB&& tempS<50 && Bm<140)
+              %its Black
+              if(figur=='0' ||figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
+                  to=[ooy+1,oox+1];
+              end
+          elseif (Bm>trWonB)
+              %its White
+              if(figur=='0' || figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
+                 to=[ooy+1,oox+1];
+              end
+          else
+              if (figur~='0')
+                  from=[ooy+1,oox+1];            
+              end
+          end 
       end
-      if(c>tr)
-         %Figureadded(ooy,oox)=true; 
-         F=true;
-         if (oldPosition(ooy+1,oox+1)=='0')
-             to=[ooy+1,oox+1];            
-         end
-         ColorChange=false;%%andere Farbe prüfen
-         figur=oldPosition(ooy+1,oox+1);
-         if(figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
-             if Col
-                 if (c>35)
-                    ColorChange=true;
-                 end
-             else
-                 if (c<30)
-                    ColorChange=true;
-                 end
-             end
-         end
-         if(figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
-             if Col
-                 if (c<35)
-                    ColorChange=true;
-                 end
-             else
-                 if (c>35)
-                    ColorChange=true;
-                 end
-             end
-         end
-         if (oldPosition(ooy+1,oox+1)~='0' && ColorChange)%%andere Farbe
-             to=[ooy+1,oox+1];            
-         end
-      else
-          F=false;
-         %Figureadded(ooy,oox)=false; 
-         if (oldPosition(ooy+1,oox+1)~='0')
-             from=[ooy+1,oox+1];            
-         end
-      end
-      subplot(8,8,ooy*8+oox+1),imshow(uint8(JJ));
+%       if(c>tr)
+%          %Figureadded(ooy,oox)=true; 
+%          F=true;
+%          if (oldPosition(ooy+1,oox+1)=='0')
+%              to=[ooy+1,oox+1];            
+%          end
+%          ColorChange=false;%%andere Farbe prüfen
+%          figur=oldPosition(ooy+1,oox+1);
+%          if(figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
+%              if Col
+%                  if (c>35)
+%                     ColorChange=true;
+%                  end
+%              else
+%                  if (c<30)
+%                     ColorChange=true;
+%                  end
+%              end
+%          end
+%          if(figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
+%              if Col
+%                  if (c<35)
+%                     ColorChange=true;
+%                  end
+%              else
+%                  if (c>35)
+%                     ColorChange=true;
+%                  end
+%              end
+%          end
+%          if (oldPosition(ooy+1,oox+1)~='0' && ColorChange)%%andere Farbe
+%              to=[ooy+1,oox+1];            
+%          end
+%       else
+%           F=false;
+%          %Figureadded(ooy,oox)=false; 
+%          if (oldPosition(ooy+1,oox+1)~='0')
+%              from=[ooy+1,oox+1];            
+%          end
+%       end
+      subplot(8,8,ooy*8+oox+1),imshow(A1);
    end
 end
 oldPosition(to(1),to(2))=oldPosition(from(1),from(2));
