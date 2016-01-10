@@ -37,12 +37,15 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
         rect=[ minx,miny,wi,hi ];
         ClearBoard = imcrop(warpedImage,rect) ;
         image=ClearBoard;  
+        
+        
+        
  catch ME
          close all;
          image=img;
      end
    
-
+    
 
 end
 

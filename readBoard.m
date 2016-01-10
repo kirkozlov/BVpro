@@ -1,4 +1,4 @@
-function [ image ] = readBoard( tforms,rect )
+function [ image ] = readBoard( tforms,rect ,file)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -15,7 +15,7 @@ mypoins=[15 15; 15 25; 15 35; 15 45; 15 55; 15 65; 15 75;
      mypoins=10*mypoins;
 
     
-        img = imread('3.jpg');
+        img = imread(file);
 
 
      try
