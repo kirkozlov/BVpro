@@ -2,7 +2,6 @@
  
 Posittions=initialFirstBoard();
 
-
 Board=readBoard('2.jpg');
 [newP,move]=search_move(Posittions,Board,ClearBoard);
 Posittions=newP;

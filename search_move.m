@@ -2,12 +2,21 @@ function [ newPosition,move ] = search_move( oldPosition,newImage,ClearBoard)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 I3=newImage;
+trBonW=200;
 
-trW=180;
-trWonW=50;
-trBonW=95;
+
+trWonWs=50;
+trWonWm=200;
+trWonWts=9;
+
+
 trWonB=170;
-trBonB=25;
+
+
+trBonBsmax=25;
+trBonBsmin=50;
+trBonBm=140;
+
 Col=true;
 for ooy=0:7
    Col=~Col;
@@ -16,8 +25,9 @@ for ooy=0:7
       rect=[55+oox*100,55+ooy*100,90,90];
       A1=(imcrop(I3,rect));
       A2=(imcrop(ClearBoard,rect));
-      
-
+      sumR=sum(sum(A1(:,:,1)));
+      sumG=sum(sum(A1(:,:,2)));
+      sumB=sum(sum(A1(:,:,3)));
       
       ColorChange=false;
       figur=oldPosition(ooy+1,oox+1);
@@ -29,18 +39,21 @@ for ooy=0:7
           A1=imadjust(A1,[0.95 1],[0 1]);
           Bm=mean(mean(mean(A1)));
           Bs=std2(A1);
-          if (Bm<trBonW && tempmean<200)
+          if (tempmean<trBonW)
+              FFF='B';
               %its black
                  if(figur=='0' ||figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
                   to=[ooy+1,oox+1];
                  end
                  
-          elseif(Bs>trWonW && Bm<200 && tempS>9)
+          elseif(Bs>trWonWs && Bm<trWonWm && tempS>trWonWts)
+              FFF='W';
                  %its white 
                  if(figur=='0' || figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
                      to=[ooy+1,oox+1];
                  end
           else
+              FFF='0';
              if (figur~='0')
                   from=[ooy+1,oox+1];            
               end 
@@ -48,17 +61,20 @@ for ooy=0:7
       else 
           Bm=mean(mean(mean(A1)));
           Bs=std2(A1);
-          if (Bs>trBonB&& tempS<50 && Bm<140)
+          if (Bs>trBonBsmax&& Bs<trBonBsmin && Bm<trBonBm)
               %its Black
+              FFF='B';
               if(figur=='0' ||figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
                   to=[ooy+1,oox+1];
               end
           elseif (Bm>trWonB)
               %its White
+              FFF='W';
               if(figur=='0' || figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
                  to=[ooy+1,oox+1];
               end
           else
+              FFF='0';
               if (figur~='0')
                   from=[ooy+1,oox+1];            
               end
