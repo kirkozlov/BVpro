@@ -1,4 +1,4 @@
-function [ newPosition,move ] = search_move( oldPosition,newImage,ClearBoard)
+function [ newPosition,move ] = search_move( oldPosition,newImage)
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 I3=newImage;
@@ -22,9 +22,9 @@ for ooy=0:7
    Col=~Col;
    for oox=0:7 
        Col=~Col;
-      rect=[55+oox*100,55+ooy*100,90,90];
+       rect=[30+oox*50,30+ooy*50,45,45];
       A1=(imcrop(I3,rect));
-      A2=(imcrop(ClearBoard,rect));
+      A1=imadjust(A1,[],[0 1]);
       sumR=sum(sum(A1(:,:,1)));
       sumG=sum(sum(A1(:,:,2)));
       sumB=sum(sum(A1(:,:,3)));
@@ -35,18 +35,16 @@ for ooy=0:7
       tempmean=mean(mean(mean(tempIM)));
       tempS=std2(tempIM);
       if Col
-          
-          A1=imadjust(A1,[0.95 1],[0 1]);
-          Bm=mean(mean(mean(A1)));
-          Bs=std2(A1);
-          if (tempmean<trBonW)
+          Bm=mean(mean(rgb2gray(A1)));
+          Bs=std2(rgb2gray(A1));
+          if (Bs>30 && Bm <115 )
               FFF='B';
               %its black
                  if(figur=='0' ||figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
                   to=[ooy+1,oox+1];
                  end
                  
-          elseif(Bs>trWonWs && Bm<trWonWm && tempS>trWonWts)
+          elseif(Bs>10 && Bm < 100)
               FFF='W';
                  %its white 
                  if(figur=='0' || figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
@@ -59,15 +57,16 @@ for ooy=0:7
               end 
           end
       else 
-          Bm=mean(mean(mean(A1)));
-          Bs=std2(A1);
-          if (Bs>trBonBsmax&& Bs<trBonBsmin && Bm<trBonBm)
+          
+          Bm=mean(mean(rgb2gray(A1)));
+          Bs=std2(rgb2gray(A1));
+          if ((Bs<35 || Bm<70) && Bs>15 && sumR <700000)
               %its Black
               FFF='B';
               if(figur=='0' ||figur=='1' || figur=='3' || figur=='5' || figur=='7' || figur=='9' || figur=='B')
                   to=[ooy+1,oox+1];
               end
-          elseif (Bm>trWonB)
+          elseif (Bs>12)
               %its White
               FFF='W';
               if(figur=='0' || figur=='2' || figur=='4' || figur=='6' || figur=='8' || figur=='A' || figur=='C')
