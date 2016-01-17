@@ -64,7 +64,7 @@ elseif(Anzahl+1==oldAnzahl)
                     if(ColorMove==1 && (oldFigure=='2' || oldFigure=='4' || oldFigure=='6' || oldFigure=='8' || oldFigure=='A' || oldFigure=='C' ))
                         rect=[65+oox*100,65+ooy*100,70,70];
                         A1=rgb2gray(imcrop(Board,rect));
-                        s=std2(A1);
+                        
                         m=mean(mean(A1));
                         if(Col)
                            if(m>trW)
@@ -81,7 +81,7 @@ elseif(Anzahl+1==oldAnzahl)
                         rect=[65+oox*100,65+ooy*100,70,70];
                         
                         A1=rgb2gray(imcrop(Board,rect));
-                        s=std2(A1);
+                        
                         m=mean(mean(A1));
                         if(Col)
                            if(m<trW)
