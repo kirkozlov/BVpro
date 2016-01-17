@@ -7,6 +7,7 @@ function [ FigurMatrix,Anzahl,tresholdb ] = cannyForFigurDetection( Board, oldFi
     tresholdb=0.20;
     tresholdc=0.15;
     EdgeA=edge(rgb2gray(Board),'Canny',tresholdc);
+    imshow(EdgeA);
     for ooy=0:7
         for oox=0:7 
             rect=[65+oox*100,65+ooy*100,70,70];
